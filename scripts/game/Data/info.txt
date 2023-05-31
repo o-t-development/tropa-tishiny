@@ -1,0 +1,5 @@
+game data filling
+
+0 layer -- map layer
+1 layer -- objects layer
+2 layer -- player layer
