@@ -77,6 +77,7 @@ export function move(object, time, TIME_PERIOD, previousTime) {
 function countSpeed(object, period, axis) {
   if (Math.abs(object.speed[axis]) < object.speed.max) {
     object.speed[axis] += object.acceleration[axis] * period;
+    console.log("object.speed[" + axis + "]: ", object.speed[axis]);
   }
   if (Math.abs(object.speed[axis]) > object.speed.max) {
     object.speed[axis] =

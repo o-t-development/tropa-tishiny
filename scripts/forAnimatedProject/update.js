@@ -23,6 +23,7 @@ export function update(data = null, time = 0, input) {
         if (force.type === "gravity" && object.isOnTheGround) return;
         if (!object.isUnderForce) {
           object.isUnderForce = true;
+          object.isStopping = false;
           // object.isAccelerationSet = true;
         }
         forceAcceleration.x += force.x;

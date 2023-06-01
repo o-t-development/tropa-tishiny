@@ -38,6 +38,7 @@ export class GameObject {
     this.isDestructable = isDestructable;
     this.isCollidable = isCollidable;
     this.isDisplayed = true;
+    this.isWaitingCollisionChkEnd = false;
 
     //flags
     this.isUnderPlayerControl = isUnderPlayerControl;
@@ -65,4 +66,5 @@ export class GameObject {
     this.collider = collider;
   }
   onCollision(obj) {}
+  onCollisionChkEnd() {}
 }

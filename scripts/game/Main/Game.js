@@ -1,5 +1,6 @@
 import { animate } from "../../forAnimatedProject/animate.js";
 import { GameObject } from "../Objects/GameObject.js";
+import { GroundEdge } from "../Objects/GroundEdge.js";
 import { Collider } from "../Physics/Collider.js";
 import { Force } from "../Physics/Force.js";
 import { Camera } from "../Utils/Camera.js";
@@ -28,7 +29,7 @@ export function StartGame(data, ctx, screen) {
         player.position.y + player.size.height
       )
     );
-    let object = new GameObject({
+    let object = new GroundEdge({
       x: 400,
       y: 800,
       width: 10,
@@ -40,7 +41,8 @@ export function StartGame(data, ctx, screen) {
         object.position.x,
         object.position.y,
         object.position.x + object.size.width,
-        object.position.y + object.size.height
+        object.position.y + object.size.height,
+        false
       )
     );
     data.setObstackles(object);
@@ -59,7 +61,7 @@ export function StartGame(data, ctx, screen) {
     new Force({
       type: "gravity",
       angle: Math.PI / 2,
-      value: 0.0095,
+      value: 0.095,
       maxSpeed: 160,
     })
   );
