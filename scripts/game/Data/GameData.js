@@ -2,12 +2,16 @@ export class Data {
   constructor(layersOfScreen = 1, playerLayer = 1) {
     this._staticObjects = {};
     this._moveableObjects = {};
-    this._forces = [];
+    this._forces = {
+      relative: [],
+      absolute: [],
+    };
     this._player = null;
     this._playerStatistic = {};
     this._layersOfScreen = layersOfScreen;
     this._playerLayer = playerLayer;
     this._additionalObjects = {};
+    this._obstackles = [];
 
     this.isJustCreated = true;
   }
@@ -20,7 +24,7 @@ export class Data {
     if (!!this._playerStatistic[field]) return this._playerStatistic[field];
   }
   getForces(type = "") {
-    if (!type) return this._forces;
+    if (!type) return [...this._forces.absolute, ...this._forces.relative];
     if (!!this._forces[type]) return this._forces[type];
   }
   getObjectsToRender() {
@@ -30,11 +34,17 @@ export class Data {
         forRender.push(this._player);
         continue;
       }
-      forRender.push([
-        ...staticObjects[`layer${i}`],
-        ...moveableObjects[`layer${i}`],
-      ]);
+      if (!this._staticObjects[`layer${i}`])
+        this._staticObjects[`layer${i}`] = [];
+      if (!this._moveableObjects[`layer${i}`])
+        this._moveableObjects[`layer${i}`] = [];
+
+      forRender.push(
+        ...this._staticObjects[`layer${i}`],
+        ...this._moveableObjects[`layer${i}`]
+      );
     }
+    return forRender;
   }
   getStaticObjects(layer = "") {
     return layer ? this._staticObjects[layer] : this._staticObjects;
@@ -47,6 +57,9 @@ export class Data {
   }
   getLayersCount() {
     return this._layersOfScreen;
+  }
+  getObstackles() {
+    return this._obstackles;
   }
 
   setStaticObjects(layer = 0, ...objects) {
@@ -64,6 +77,7 @@ export class Data {
     this._moveableObjects[`layer${this._playerLayer}`] = [this._player];
   }
   setForces(type = "", ...forces) {
+    if (!this._forces[type]) return;
     this._forces[type].push(...forces);
   }
   setPlayerStatistic(statistic) {
@@ -71,5 +85,8 @@ export class Data {
   }
   setAdditionalObject(name = "", object = {}) {
     this._additionalObjects[name] = object;
+  }
+  setObstackles(...obstackles) {
+    this._obstackles.push(...obstackles);
   }
 }
