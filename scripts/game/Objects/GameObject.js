@@ -12,6 +12,7 @@ export class GameObject {
     maxSelfAcceleration = 3,
     minSelfAcceleration = 1,
     color = "#0000FF",
+    paralax = 1,
   }) {
     //parameters
     this.position = { x, y };
@@ -40,13 +41,15 @@ export class GameObject {
     this.isDisplayed = true;
     this.isWaitingCollisionChkEnd = false;
 
+    this.paralax = paralax;
+
     //flags
     this.isUnderPlayerControl = isUnderPlayerControl;
     this.isUnderForce = false;
     this.isStopping = false;
     this.isOnLastMove = false;
     this.isAccelerationSet = false;
-    this.isOnTheGround = true;
+    this.isOnTheGround = false;
 
     //constants
     this.maxSelfSpeed = maxSelfSpeed;

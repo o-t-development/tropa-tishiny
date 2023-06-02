@@ -28,19 +28,32 @@ export function render(data, time, ctx, screen) {
       typeof object.texture.color === "string"
         ? drawRect(
             {
-              x: object.position.x + camera.position.x,
-              y: object.position.y + camera.position.y,
+              x: object.position.x + camera.position.x / object.paralax,
+              y: object.position.y + camera.position.y / object.paralax,
               ...object.texture,
             },
             ctx
           )
         : ctx.drawImage(
             object.texture.color,
-            object.position.x + camera.position.x,
-            object.position.y + camera.position.y,
+            object.position.x + camera.position.x / object.paralax,
+            object.position.y + camera.position.y / object.paralax,
             object.size.width,
             object.size.height
           );
+
+      if (!!object.collider) {
+        drawRect(
+          {
+            x: object.collider.x1 + camera.position.x / object.paralax,
+            y: object.collider.y1 + camera.position.y / object.paralax,
+            w: object.collider.x2 - object.collider.x1,
+            h: object.collider.y2 - object.collider.y1,
+            filled: false,
+          },
+          ctx
+        );
+      }
     });
   }
   // let moveable = data.getMoveableObjects();

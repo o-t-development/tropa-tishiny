@@ -11,7 +11,7 @@ export class GroundEdge extends GameObject {
 
   onCollision(obj) {
     if (this.objects.indexOf(obj) < 0) this.objects.push(obj);
-    // obj.isOnTheGround = false;
+    obj.isOnTheGround = true;
   }
 
   onCollisionChkEnd() {
@@ -19,11 +19,11 @@ export class GroundEdge extends GameObject {
       this.prevObjects = [...this.objects];
     } else {
       for (let i = 0; i < this.prevObjects.length; i++) {
-        console.log("G");
-        if (this.objects.indexOf(this.prevObjects[i]) < 0)
+        if (this.objects.indexOf(this.prevObjects[i]) < 0) {
           this.prevObjects[i].isOnTheGround = false;
-        this.prevObjects.splice(i, 1);
-        i--;
+          this.prevObjects.splice(i, 1);
+          i--;
+        }
       }
     }
     this.objects = [];

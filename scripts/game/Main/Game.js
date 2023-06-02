@@ -5,8 +5,14 @@ import { Collider } from "../Physics/Collider.js";
 import { Force } from "../Physics/Force.js";
 import { Camera } from "../Utils/Camera.js";
 import { getMap } from "../Utils/map.js";
-const bg_01_Src = "../../../references/photo_2023-05-31_21-47-44.jpg";
-const front_Src = "../../../references/первый слой (фон игры).png";
+const bg_0_Src = "../../../references/фон игры 3 (первый слой).png";
+const bg_01_Src = "../../../references/фон игры 3 (второй слой).png";
+const bg_02_Src = "../../../references/фон игры 3 (третий слой).png";
+const bg_03_Src = "../../../references/фон игры 3 (четвёртый слой).png";
+const bg_04_Src = "../../../references/фон игры 3 (пятый слой).png";
+
+const bgImageHeight = 950,
+  index = 2.82258064;
 
 export function StartGame(data, ctx, screen) {
   if (data.isJustCreated) {
@@ -22,32 +28,47 @@ export function StartGame(data, ctx, screen) {
     );
     let player = data.getPlayer();
     player.setCollider(
-      new Collider(
-        player.position.x,
-        player.position.y,
-        player.position.x + player.size.width,
-        player.position.y + player.size.height
-      )
+      new Collider({
+        x1: player.position.x,
+        y1: player.position.y,
+        x2: player.position.x + player.size.width,
+        y2: player.position.y + player.size.height,
+        biasY: 90,
+      })
     );
     let object = new GroundEdge({
-      x: 400,
+      x: 0,
       y: 800,
-      width: 10,
-      height: 40,
+      width: 1000,
+      height: 120,
       color: "#58070d",
     });
     object.setCollider(
-      new Collider(
-        object.position.x,
-        object.position.y,
-        object.position.x + object.size.width,
-        object.position.y + object.size.height,
-        false
-      )
+      new Collider({
+        x1: object.position.x,
+        y1: object.position.y,
+        x2: object.position.x + object.size.width,
+        y2: object.position.y + object.size.height,
+        isSolid: false,
+      })
     );
-    data.setObstackles(object);
-    data.setStaticObjects(1, object);
-    data.setObstacles;
+    let obstackle = new GameObject({
+      x: 800,
+      y: 800,
+      width: 10,
+      height: 120,
+      color: "#00FF00",
+    });
+    obstackle.setCollider(
+      new Collider({
+        x1: obstackle.position.x,
+        y1: obstackle.position.y,
+        x2: obstackle.position.x + obstackle.size.width,
+        y2: obstackle.position.y + obstackle.size.height,
+      })
+    );
+    data.setObstackles(object, obstackle);
+    data.setStaticObjects(1, object, obstackle);
   }
 
   data.setAdditionalObject("camera", new Camera());
@@ -61,34 +82,74 @@ export function StartGame(data, ctx, screen) {
     new Force({
       type: "gravity",
       angle: Math.PI / 2,
-      value: 0.095,
+      value: 0.008,
       maxSpeed: 160,
     })
   );
 
-  let bg_1 = new Image(),
-    front = new Image();
+  let bg_0 = new Image(),
+    bg_1 = new Image(),
+    bg_2 = new Image(),
+    bg_3 = new Image(),
+    bg_4 = new Image();
   bg_1.src = bg_01_Src;
-  front.src = front_Src;
-  front.onload = () => {
+  bg_0.src = bg_0_Src;
+  bg_3.src = bg_03_Src;
+  bg_4.src = bg_04_Src;
+  bg_2.src = bg_02_Src;
+  bg_0.onload = () => {
     data.setStaticObjects(
       0,
       new GameObject({
         x: 0,
         y: 0,
-        width: 1529,
-        height: 1080,
+        width: bgImageHeight * index,
+        height: bgImageHeight,
+        color: bg_4,
+        paralax: 6,
+      }),
+      new GameObject({
+        x: 0,
+        y: 0,
+        width: bgImageHeight * index,
+        height: bgImageHeight,
+        color: bg_3,
+        paralax: 4,
+      }),
+      new GameObject({
+        x: 0,
+        y: 0,
+        width: bgImageHeight * index,
+        height: bgImageHeight,
+        color: bg_2,
+        paralax: 2,
+      }),
+      new GameObject({
+        x: 0,
+        y: 0,
+        width: bgImageHeight * index,
+        height: bgImageHeight,
         color: bg_1,
+        paralax: 1,
       })
+      // new GameObject({
+      //   x: -500,
+      //   y: 0,
+      //   width: 500,
+      //   height: bgImageHeight,
+      //   color: "#000000",
+      //   paralax: 1,
+      // })
     );
     data.setStaticObjects(
       3,
       new GameObject({
         x: 0,
         y: 0,
-        width: 1529,
-        height: 1080,
-        color: front,
+        width: bgImageHeight * index,
+        height: bgImageHeight,
+        color: bg_0,
+        paralax: 0.8,
       })
     );
     animate(data, 0, ctx, screen);

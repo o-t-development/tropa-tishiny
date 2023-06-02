@@ -29,12 +29,19 @@ export function move(object, time, TIME_PERIOD, previousTime) {
         object.speed.y -= object.acceleration.y * period;
       }
     }
+
     countSpeed(object, period, "x");
     countSpeed(object, period, "y");
-    object.collider.x1 = object.position.x;
-    object.collider.y1 = object.position.y;
-    object.collider.x2 = object.position.x + object.size.width;
-    object.collider.y2 = object.position.y + object.size.height;
+    object.collider.setPosition(
+      object.position.x,
+      object.position.y,
+      object.position.x + object.size.width,
+      object.position.y + object.size.height
+    );
+    // object.collider.x1 = object.position.x;
+    // object.collider.y1 = object.position.y;
+    // object.collider.x2 = object.position.x + object.size.width;
+    // object.collider.y2 = object.position.y + object.size.height;
   } else {
     // Stop movement
     // if (!object.isAccelerationSet) {
@@ -45,39 +52,52 @@ export function move(object, time, TIME_PERIOD, previousTime) {
     if (object.movement.x !== 0 && object.movement.y !== 0) return;
 
     if (!object.isOnLastMove) {
-      object.speed.x -= object.acceleration.x * period;
-
+      if (!object.isUnderForce) {
+        object.speed.x -= object.acceleration.x * period;
+        object.speed.y -= object.acceleration.y * period;
+      }
       if (Math.abs(object.speed.x) > object.maxSelfSpeed) {
         object.speed.x =
           object.speed.x > 0 ? object.maxSelfSpeed : -object.maxSelfSpeed;
         object.acceleration.x = -object.acceleration.x;
+        object.speed.y =
+          object.speed.y > 0 ? object.maxSelfSpeed : -object.maxSelfSpeed;
+        object.acceleration.y = -object.acceleration.y;
       }
     } else {
       object.speed.x = 0;
+      object.speed.y = 0;
       object.isOnLastMove = false;
       object.isAccelerationSet = false;
       object.isStopping = false;
     }
     if (
-      Math.abs(object.speed.x) < Math.abs(object.acceleration.x * period) &&
-      object.speed.x !== 0
+      (Math.abs(object.speed.x) < Math.abs(object.acceleration.x * period) &&
+        object.speed.x !== 0) ||
+      (Math.abs(object.speed.y) < Math.abs(object.acceleration.y * period) &&
+        object.speed.y !== 0)
     )
       object.isOnLastMove = true;
 
     object.position.x += object.speed.x * period;
     object.position.y += object.speed.y * period;
 
-    object.collider.x1 = object.position.x;
-    object.collider.y1 = object.position.y;
-    object.collider.x2 = object.position.x + object.size.width;
-    object.collider.y2 = object.position.y + object.size.height;
+    object.collider.setPosition(
+      object.position.x,
+      object.position.y,
+      object.position.x + object.size.width,
+      object.position.y + object.size.height
+    );
+    // object.collider.x1 = object.position.x;
+    // object.collider.y1 = object.position.y;
+    // object.collider.x2 = object.position.x + object.size.width;
+    // object.collider.y2 = object.position.y + object.size.height;
   }
 }
 
 function countSpeed(object, period, axis) {
   if (Math.abs(object.speed[axis]) < object.speed.max) {
     object.speed[axis] += object.acceleration[axis] * period;
-    console.log("object.speed[" + axis + "]: ", object.speed[axis]);
   }
   if (Math.abs(object.speed[axis]) > object.speed.max) {
     object.speed[axis] =
