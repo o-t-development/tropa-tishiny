@@ -14,4 +14,7 @@ export class Force {
     this.x = value * Math.cos(angle);
     this.y = value * Math.sin(angle);
   }
+  delete() {
+    this.isDeleted = true;
+  }
 }

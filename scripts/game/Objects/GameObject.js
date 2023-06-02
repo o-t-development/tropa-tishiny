@@ -51,6 +51,7 @@ export class GameObject {
     this.isOnLastMove = false;
     this.isAccelerationSet = false;
     this.isOnTheGround = false;
+    this.isDeleted = false;
 
     //constants
     this.maxSelfSpeed = maxSelfSpeed;
@@ -71,4 +72,8 @@ export class GameObject {
   }
   onCollision(obj) {}
   onCollisionChkEnd() {}
+
+  delete() {
+    this.isDeleted = true;
+  }
 }

@@ -89,4 +89,29 @@ export class Data {
   setObstackles(...obstackles) {
     this._obstackles.push(...obstackles);
   }
+
+  deleteObjects() {
+    this._deleteIn("_moveableObjects");
+    this._deleteIn("_staticObjects");
+    this._deleteIn("_forces");
+    this._deleteIn("_additionalObjects");
+  }
+  _deleteIn(field = "") {
+    if (!this.hasOwnProperty(field)) return;
+    for (let i in this[field]) {
+      if (!this[field].hasOwnProperty(i)) continue;
+      for (let j = 0; j < this[field][i].length; j++) {
+        if (!this[field][i][j].isDeleted) continue;
+        if (
+          !!this[field][i][j].collider &&
+          this.obstackles.indexOf(this[field][i][j].collider) !== -1
+        ) {
+          this.obstackles.splice(
+            this.obstackles.indexOf(this[field][i][j].collider)
+          );
+        }
+        this[field][i].splice(j, 1);
+      }
+    }
+  }
 }
