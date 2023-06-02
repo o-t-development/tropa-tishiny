@@ -70,4 +70,17 @@ export function render(data, time, ctx, screen) {
   //     )
   //   );
   // }
+  drawRect(
+    {
+      x:
+        data.getAdditionalObject("camera").frame.position.x + camera.position.x,
+      y:
+        data.getAdditionalObject("camera").frame.position.y + camera.position.y,
+      w: data.getAdditionalObject("camera").frame.size.width,
+      h: data.getAdditionalObject("camera").frame.size.height,
+      color: "#FF0000",
+      filled: false,
+    },
+    ctx
+  );
 }

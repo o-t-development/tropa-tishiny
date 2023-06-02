@@ -48,13 +48,33 @@ export function update(data = null, time = 0, input) {
       } else if (log) {
         // Some logs
         log = false;
+      } else {
+        data.getAdditionalObject("camera").moveFrame(data.getPlayer());
       }
+
       // if (data.getPlayer().position.x > 1000)
       //   data.getPlayer().isOnTheGround = false;
     });
   }
 
   previousTime = time;
-  data.getAdditionalObject("camera").setFocus(data.getPlayer());
+  let camera = data.getAdditionalObject("camera");
+  let player = data.getPlayer();
+
+  if (
+    camera.frame.position.x >= player.position.x ||
+    camera.frame.position.x + camera.frame.size.width <=
+      player.position.x + player.size.width
+  ) {
+    camera.setFocus(data.getPlayer(), "x");
+  }
+  if (
+    camera.frame.position.y >= player.position.y ||
+    camera.frame.position.y + camera.frame.size.height <=
+      player.position.y + player.size.height
+  ) {
+    console.log("focuse Y");
+    camera.setFocus(data.getPlayer(), "y");
+  }
   return data;
 }

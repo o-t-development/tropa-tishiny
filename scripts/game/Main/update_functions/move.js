@@ -15,6 +15,7 @@ export function move(object, time, TIME_PERIOD, previousTime) {
       object.acceleration.y = object.minSelfAcceleration * object.movement.y;
       object.isAccelerationSet = true;
     }
+
     if (
       object.isAccelerationSet &&
       (Math.sign(object.movement.x) !== Math.sign(object.acceleration.x) ||
@@ -53,10 +54,15 @@ export function move(object, time, TIME_PERIOD, previousTime) {
 
     if (!object.isOnLastMove) {
       if (!object.isUnderForce) {
-        object.speed.x -= object.acceleration.x * period;
-        object.speed.y -= object.acceleration.y * period;
+        if (Math.abs(object.speed.x) > 0)
+          object.speed.x -= object.acceleration.x * period;
+        if (Math.abs(object.speed.y) > 0)
+          object.speed.y -= object.acceleration.y * period;
       }
-      if (Math.abs(object.speed.x) > object.maxSelfSpeed) {
+      if (
+        Math.abs(object.speed.x) > object.maxSelfSpeed ||
+        Math.abs(object.speed.y) > object.maxSelfSpeed
+      ) {
         object.speed.x =
           object.speed.x > 0 ? object.maxSelfSpeed : -object.maxSelfSpeed;
         object.acceleration.x = -object.acceleration.x;

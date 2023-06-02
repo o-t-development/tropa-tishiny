@@ -3,7 +3,7 @@ import { GameObject } from "./GameObject.js";
 export class GroundEdge extends GameObject {
   constructor(obj) {
     super(obj);
-    // this.isDisplayed = false;
+    this.isDisplayed = false;
     this.isWaitingCollisionChkEnd = true;
     this.prevObjects = [];
     this.objects = [];
@@ -20,6 +20,7 @@ export class GroundEdge extends GameObject {
     } else {
       for (let i = 0; i < this.prevObjects.length; i++) {
         if (this.objects.indexOf(this.prevObjects[i]) < 0) {
+          console.log("Fall!");
           this.prevObjects[i].isOnTheGround = false;
           this.prevObjects.splice(i, 1);
           i--;

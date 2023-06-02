@@ -13,6 +13,7 @@ export class GameObject {
     minSelfAcceleration = 1,
     color = "#0000FF",
     paralax = 1,
+    isDisplayed = true,
   }) {
     //parameters
     this.position = { x, y };
@@ -38,7 +39,7 @@ export class GameObject {
     //properties
     this.isDestructable = isDestructable;
     this.isCollidable = isCollidable;
-    this.isDisplayed = true;
+    this.isDisplayed = isDisplayed;
     this.isWaitingCollisionChkEnd = false;
 
     this.paralax = paralax;

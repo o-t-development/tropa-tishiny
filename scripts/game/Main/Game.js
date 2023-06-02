@@ -56,7 +56,7 @@ export function StartGame(data, ctx, screen) {
       x: 800,
       y: 800,
       width: 10,
-      height: 120,
+      height: 60,
       color: "#00FF00",
     });
     obstackle.setCollider(
@@ -67,8 +67,42 @@ export function StartGame(data, ctx, screen) {
         y2: obstackle.position.y + obstackle.size.height,
       })
     );
-    data.setObstackles(object, obstackle);
-    data.setStaticObjects(1, object, obstackle);
+
+    let upEdge = new GameObject({
+      x: 0,
+      y: 790,
+      width: 1000,
+      height: 10,
+      color: "#CC0099",
+      isDisplayed: false,
+    });
+    upEdge.setCollider(
+      new Collider({
+        x1: upEdge.position.x,
+        y1: upEdge.position.y,
+        x2: upEdge.position.x + upEdge.size.width,
+        y2: upEdge.position.y + upEdge.size.height,
+      })
+    );
+    let downEdge = new GameObject({
+      x: 0,
+      y: 910,
+      width: 1000,
+      height: 10,
+      color: "#CC0099",
+      isDisplayed: false,
+    });
+    downEdge.setCollider(
+      new Collider({
+        x1: downEdge.position.x,
+        y1: downEdge.position.y,
+        x2: downEdge.position.x + downEdge.size.width,
+        y2: downEdge.position.y + downEdge.size.height,
+      })
+    );
+
+    data.setObstackles(object, obstackle, upEdge, downEdge);
+    data.setStaticObjects(1, object, obstackle, upEdge, downEdge);
   }
 
   data.setAdditionalObject("camera", new Camera());
@@ -82,7 +116,7 @@ export function StartGame(data, ctx, screen) {
     new Force({
       type: "gravity",
       angle: Math.PI / 2,
-      value: 0.008,
+      value: 0.08,
       maxSpeed: 160,
     })
   );
