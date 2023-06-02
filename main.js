@@ -27,6 +27,6 @@ function initiate(data = null) {
 
 //calling functions
 // let data = initiate();
-let data = new Data(4, 2);
+let data = new Data(7, 5);
 
 StartGame(data, ctx, screen);

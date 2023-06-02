@@ -14,6 +14,7 @@ export class Data {
     this._obstackles = [];
 
     this.isJustCreated = true;
+    this.log = true;
   }
 
   getPlayer() {

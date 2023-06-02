@@ -51,9 +51,6 @@ export function update(data = null, time = 0, input) {
       } else {
         data.getAdditionalObject("camera").moveFrame(data.getPlayer());
       }
-
-      // if (data.getPlayer().position.x > 1000)
-      //   data.getPlayer().isOnTheGround = false;
     });
   }
 
@@ -73,7 +70,6 @@ export function update(data = null, time = 0, input) {
     camera.frame.position.y + camera.frame.size.height <=
       player.position.y + player.size.height
   ) {
-    console.log("focuse Y");
     camera.setFocus(data.getPlayer(), "y");
   }
   return data;
